@@ -1,0 +1,251 @@
+esphome:
+  name: <YOUR NAME HERE>
+  platform: ESP8266
+  board: d1_mini
+
+## REMOVED THE STUFF THAT ESPHOME GENERATES FOR YOU, COPY AND PASTE THIS AFTER THE CAPTIVE PORTAL PART
+
+time:
+  - platform: homeassistant
+    id: esptime
+
+font:
+  - file: 'fonts/OpenSans-Regular.ttf'
+    id: font1
+    size: 12
+  - file: 'fonts/OpenSans-Regular.ttf'
+    id: font2
+    size: 48
+  - file: 'fonts/OpenSans-Regular.ttf'
+    id: font3
+    size: 40
+  - file: 'fonts/OpenSans-Regular.ttf'
+    id: font4
+    size: 30
+  - file: 'fonts/OpenSans-Regular.ttf'
+    id: font5
+    size: 20
+
+image:
+#0-default.png
+  - file: "images/0-default.png"
+    id: wpng_0
+    type: RGB24
+    resize: 40x40
+#1-clear-night.png
+  - file: "images/1-clear-night.png"
+    id: wpng_1
+    type: RGB24
+    resize: 40x40
+#2-cloudy.png
+  - file: "images/2-cloudy.png"
+    id: wpng_2
+    type: RGB24
+    resize: 40x40
+#3-fog.png
+  - file: "images/3-fog.png"
+    id: wpng_3
+    type: RGB24
+    resize: 40x40
+#4-hail.png
+  - file: "images/4-hail.png"
+    id: wpng_4
+    type: RGB24
+    resize: 40x40
+#5-lightning.png
+  - file: "images/5-lightning.png"
+    id: wpng_5
+    type: RGB24
+    resize: 40x40
+#6-lightning-rainy.png
+  - file: "images/6-lightning-rainy.png"
+    id: wpng_6
+    type: RGB24
+    resize: 40x40
+#7-partlycloudy.png
+  - file: "images/7-partlycloudy.png"
+    id: wpng_7
+    type: RGB24
+    resize: 40x40
+#9-rainy.png
+  - file: "images/9-rainy.png"
+    id: wpng_9
+    type: RGB24
+    resize: 40x40
+#10-snowy.png
+  - file: "images/10-snowy.png"
+    id: wpng_10
+    type: RGB24
+    resize: 40x40
+#12-sunny.png
+  - file: "images/12-sunny.png"
+    id: wpng_12
+    type: RGB24
+    resize: 40x40
+#13-windy.png
+  - file: "images/13-windy.png"
+    id: wpng_13
+    type: RGB24
+    resize: 40x40
+#14-garagedoor.png
+  - file: "images/garagedoor.png"
+    id: grgdr_1
+    type: RGB24
+    resize: 40x40
+#15-garagedoor_closed.png
+  - file: "images/garagedoor_closed.png"
+    id: grgdr_2
+    type: RGB24
+    resize: 40x40
+
+
+i2c:
+  sda: D2
+  scl: D1
+  scan: True
+  id: bus_a
+  
+binary_sensor:
+  - platform: homeassistant
+    entity_id: binary_sensor.garage_door
+    name: "garage_state"
+    id: garage_state
+    internal: True
+sensor:
+  - platform: homeassistant
+    id: garage_temp
+    entity_id: sensor.garage_temperature
+    internal: true
+  - platform: homeassistant
+    id: outside_temp
+    entity_id: sensor.current_temperature
+    internal: true
+text_sensor:
+  - platform: homeassistant
+    id: current_condition
+    entity_id: weather.lake_home
+    internal: true
+
+
+display:
+  - platform: ssd1306_i2c
+    model: "SSD1306 128x64"
+    id: my_display
+    pages:
+      - id: page0
+        lambda: |-
+          // Print "Smart Home Display" in top center.
+          it.printf(64, 0, id(font1), TextAlign::TOP_CENTER, "PAT Home Display");
+          // Print time in HH:MM format
+          it.strftime(0, 55, id(font5), TextAlign::BASELINE_LEFT, "%a %b %d", id(esptime).now());
+      - id: page0_1
+        lambda: |-
+          // Print "Smart Home Display" in top center.
+          it.printf(64, 0, id(font1), TextAlign::TOP_CENTER, "PAT Home Display");
+          // Print time in HH:MM format
+          it.strftime(0, 55, id(font5), TextAlign::BASELINE_LEFT, "%m/%d/%Y", id(esptime).now());
+      - id: page1
+        lambda: |-
+          // Print "Smart Home Display" in top center.
+          it.printf(64, 0, id(font1), TextAlign::TOP_CENTER, "PAT Home Display");
+          // Print time in HH:MM format
+          it.strftime(0, 60, id(font4), TextAlign::BASELINE_LEFT, "%I:%M %p", id(esptime).now());
+      - id: page2
+        lambda: |-
+          it.printf(64, 0, id(font1), TextAlign::TOP_CENTER, "Garage Door");
+          if(id(garage_state).state) {
+            //it.printf(0, 60, id(font2), TextAlign::BASELINE_LEFT, "%s", "Open");
+            it.image(44, 24, id(grgdr_2));
+          }
+          else{
+            //it.printf(0, 60, id(font3), TextAlign::BASELINE_LEFT, "%s", "Closed");
+            it.image(44, 24, id(grgdr_1));
+          }
+      - id: page3
+        lambda: |-
+          // Print "Smart Home Display" in top center.
+          it.printf(64, 0, id(font1), TextAlign::TOP_CENTER, "Garage Temp");
+          if (id(garage_temp).has_state()) {
+            it.printf(0, 60, id(font3), TextAlign::BASELINE_LEFT, "%.1f°F", id(garage_temp).state);
+          } else {
+            it.print(0, 60, id(font3), TextAlign::BASELINE_LEFT, "offline");
+           }
+      - id: page4
+        lambda: |-
+          // Print "Smart Home Display" in top center.
+          it.printf(64, 0, id(font1), TextAlign::TOP_CENTER, "Outside Temp");
+          if (id(outside_temp).has_state()) {
+            it.printf(0, 60, id(font3), TextAlign::BASELINE_LEFT, "%.1f°F", id(outside_temp).state);
+          } else {
+            it.print(0, 60, id(font3), TextAlign::BASELINE_LEFT, "offline");
+           }
+      - id: page5
+        lambda: |-
+          if (id(current_condition).state == "clear-night"){
+            it.printf(64, 0, id(font1), TextAlign::TOP_CENTER, "Clear Night");
+            it.image(44, 24, id(wpng_1));
+          }
+          else if (id(current_condition).state == "cloudy"){
+            it.printf(64, 0, id(font1), TextAlign::TOP_CENTER, "Cloudy");
+            it.image(44, 24, id(wpng_2));
+          }
+          else if (id(current_condition).state == "fog"){
+            it.printf(64, 0, id(font1), TextAlign::TOP_CENTER, "Foggy");
+            it.image(44, 24, id(wpng_3));
+          }
+          else if (id(current_condition).state == "hail"){
+            it.printf(64, 0, id(font1), TextAlign::TOP_CENTER, "Hail");
+            it.image(44, 24, id(wpng_4));
+          }
+          else if (id(current_condition).state == "lightning"){
+            it.printf(64, 0, id(font1), TextAlign::TOP_CENTER, "Lightning");
+            it.image(44, 24, id(wpng_5));
+          }
+          else if (id(current_condition).state == "lightning-rainy"){
+            it.printf(64, 0, id(font1), TextAlign::TOP_CENTER, "Lightning/Rainy");
+            it.image(44, 24, id(wpng_6));
+          }
+          else if (id(current_condition).state == "partlycloudy"){
+            it.printf(64, 0, id(font1), TextAlign::TOP_CENTER, "Partly Cloudy");
+            it.image(44, 24, id(wpng_7));
+          }
+          else if (id(current_condition).state == "pouring"){
+            it.printf(64, 0, id(font1), TextAlign::TOP_CENTER, "Rainy");
+            it.image(44, 24, id(wpng_9));
+          }
+          else if (id(current_condition).state == "pouring"){
+            it.printf(64, 0, id(font1), TextAlign::TOP_CENTER, "Heavy Rain");
+            it.image(44, 24, id(wpng_9));
+          }
+          else if (id(current_condition).state == "rainy"){
+            it.printf(64, 0, id(font1), TextAlign::TOP_CENTER, "Rainy");
+            it.image(44, 24, id(wpng_9));
+          }
+          else if (id(current_condition).state == "snowy"){
+            it.printf(64, 0, id(font1), TextAlign::TOP_CENTER, "Snowing");
+            it.image(44, 24, id(wpng_10));
+          }
+          else if (id(current_condition).state == "snowy-rainy"){
+            it.printf(64, 0, id(font1), TextAlign::TOP_CENTER, "Winter Mix");
+            it.image(44, 24, id(wpng_10));
+          }
+          else if (id(current_condition).state == "sunny"){
+            it.printf(64, 0, id(font1), TextAlign::TOP_CENTER, "Sunny");
+            it.image(44, 24, id(wpng_12));
+          }
+          else if (id(current_condition).state == "windy"){
+            it.printf(64, 0, id(font1), TextAlign::TOP_CENTER, "Windy");
+            it.image(44, 24, id(wpng_13));
+          }
+          else {
+            it.printf(64, 0, id(font1), TextAlign::TOP_CENTER, "Weather Display");
+            it.image(44, 24, id(wpng_0));
+          }
+          
+      
+interval:
+  - interval: 10s
+    then:
+      - display.page.show_next: my_display
+      - component.update: my_display
+
