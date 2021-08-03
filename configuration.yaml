@@ -5,10 +5,10 @@ sensor:
     sensors:
       today_min:
         value_template: "{{ state_attr('weather.home','forecast')[0].templow | default('0') }}"
-        friendly_name: Today's maximal temperature
+        friendly_name: Today's Low Temperature
       today_max:
         value_template: "{{ state_attr('weather.home','forecast')[0].temperature | default('0') }}"
-        friendly_name: Today's minimal temperature
+        friendly_name: Today's High Temperature
       current_temperature: 
         value_template: "{{ state_attr('weather.home', 'temperature') | default('69') }}"
         friendly_name: Current Temperature
