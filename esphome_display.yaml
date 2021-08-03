@@ -30,72 +30,72 @@ image:
 #0-default.png
   - file: "images/0-default.png"
     id: wpng_0
-    type: RGB24
+    type: BINARY
     resize: 40x40
 #1-clear-night.png
   - file: "images/1-clear-night.png"
     id: wpng_1
-    type: RGB24
+    type: BINARY
     resize: 40x40
 #2-cloudy.png
   - file: "images/2-cloudy.png"
     id: wpng_2
-    type: RGB24
+    type: BINARY
     resize: 40x40
 #3-fog.png
   - file: "images/3-fog.png"
     id: wpng_3
-    type: RGB24
+    type: BINARY
     resize: 40x40
 #4-hail.png
   - file: "images/4-hail.png"
     id: wpng_4
-    type: RGB24
+    type: BINARY
     resize: 40x40
 #5-lightning.png
   - file: "images/5-lightning.png"
     id: wpng_5
-    type: RGB24
+    type: BINARY
     resize: 40x40
 #6-lightning-rainy.png
   - file: "images/6-lightning-rainy.png"
     id: wpng_6
-    type: RGB24
+    type: BINARY
     resize: 40x40
 #7-partlycloudy.png
   - file: "images/7-partlycloudy.png"
     id: wpng_7
-    type: RGB24
+    type: BINARY
     resize: 40x40
 #9-rainy.png
   - file: "images/9-rainy.png"
     id: wpng_9
-    type: RGB24
+    type: BINARY
     resize: 40x40
 #10-snowy.png
   - file: "images/10-snowy.png"
     id: wpng_10
-    type: RGB24
+    type: BINARY
     resize: 40x40
 #12-sunny.png
   - file: "images/12-sunny.png"
     id: wpng_12
-    type: RGB24
+    type: BINARY
     resize: 40x40
 #13-windy.png
   - file: "images/13-windy.png"
     id: wpng_13
-    type: RGB24
+    type: BINARY
     resize: 40x40
 #14-garagedoor.png
   - file: "images/garagedoor.png"
     id: grgdr_1
-    type: RGB24
+    type: BINARY
     resize: 40x40
 #15-garagedoor_closed.png
   - file: "images/garagedoor_closed.png"
     id: grgdr_2
-    type: RGB24
+    type: BINARY
     resize: 40x40
 
 
