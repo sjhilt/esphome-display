@@ -25,7 +25,7 @@ VCC: 3.3 (You can use 3.3 or 5v on the display I used, but it dumps it down to 3
 # Install Steps 
 1) Place the `configuration.yaml` in the inside of yours, this will allow the display to read weather data from home assistant. 
 
-2) In ESPHome addon, create a new board, and copy and paste `esphome_display.yaml` inside that file. Install it to the board and enjoy the sights. 
+2) In ESPHome addon, create a new board, and copy and paste `esphome_display.yaml` when you hit the edit button on ESPHome. Install it to the board and enjoy the sights. 
 
 *Note i'm using a reed switch for my garage door states and if you do not have that you'll need to take it out, this is using another project that I'll upload and link here eventually so if you want to have one of those stay tuned. 
 
