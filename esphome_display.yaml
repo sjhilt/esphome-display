@@ -123,7 +123,7 @@ sensor:
 text_sensor:
   - platform: homeassistant
     id: current_condition
-    entity_id: weather.lake_home
+    entity_id: weather.home
     internal: true
 
 
