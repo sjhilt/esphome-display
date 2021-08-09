@@ -97,7 +97,10 @@ image:
     id: grgdr_2
     type: BINARY
     resize: 40x40
-
+animation:
+  - file: "images/waving1.gif"
+    id: hand_waving
+    type: GRAYSCALE
 
 i2c:
   sda: D2
@@ -132,38 +135,45 @@ display:
     model: "SSD1306 128x64"
     id: my_display
     pages:
+      - id: page
+        lambda: |- 
+          it.printf(64, 0, id(font1), TextAlign::TOP_CENTER, "PAT Home Display");
+          id(hand_waving).next_frame();
+          it.image(44, 24, id(hand_waving));
+          id(hand_waving).next_frame();
+          it.image(44, 24, id(hand_waving));
       - id: page0
         lambda: |-
-          // Print "Smart Home Display" in top center.
-          it.printf(64, 0, id(font1), TextAlign::TOP_CENTER, "Smart Home Display");
+          // Print "PAT Smart Home Display" in top center.
+          it.printf(64, 0, id(font1), TextAlign::TOP_CENTER, "PAT Home Display");
           // Print time in HH:MM format
           it.strftime(0, 55, id(font5), TextAlign::BASELINE_LEFT, "%a %b %d", id(esptime).now());
-      - id: page0_1
+      - id: page1_1
         lambda: |-
-          // Print "Smart Home Display" in top center.
-          it.printf(64, 0, id(font1), TextAlign::TOP_CENTER, "Smart Home Display");
+          // Print "PAT Smart Home Display" in top center.
+          it.printf(64, 0, id(font1), TextAlign::TOP_CENTER, "PAT Home Display");
           // Print time in HH:MM format
           it.strftime(0, 55, id(font5), TextAlign::BASELINE_LEFT, "%m/%d/%Y", id(esptime).now());
       - id: page1
         lambda: |-
-          // Print "Smart Home Display" in top center.
-          it.printf(64, 0, id(font1), TextAlign::TOP_CENTER, "Smart Home Display");
+          // Print "PAT Smart Home Display" in top center.
+          it.printf(64, 0, id(font1), TextAlign::TOP_CENTER, "PAT Home Display");
           // Print time in HH:MM format
           it.strftime(0, 60, id(font4), TextAlign::BASELINE_LEFT, "%I:%M %p", id(esptime).now());
       - id: page2
         lambda: |-
           it.printf(64, 0, id(font1), TextAlign::TOP_CENTER, "Garage Door");
           if(id(garage_state).state) {
-            //it.printf(0, 60, id(font2), TextAlign::BASELINE_LEFT, "%s", "Open");
+            it.printf(0, 60, id(font1), TextAlign::BASELINE_LEFT, "%s", "Open");
             it.image(44, 24, id(grgdr_2));
           }
           else{
-            //it.printf(0, 60, id(font3), TextAlign::BASELINE_LEFT, "%s", "Closed");
+            it.printf(0, 60, id(font1), TextAlign::BASELINE_LEFT, "%s", "Closed");
             it.image(44, 24, id(grgdr_1));
           }
       - id: page3
         lambda: |-
-          // Print "Smart Home Display" in top center.
+          // Print "PAT Smart Home Display" in top center.
           it.printf(64, 0, id(font1), TextAlign::TOP_CENTER, "Garage Temp");
           if (id(garage_temp).has_state()) {
             it.printf(0, 60, id(font3), TextAlign::BASELINE_LEFT, "%.1f°F", id(garage_temp).state);
@@ -172,7 +182,7 @@ display:
            }
       - id: page4
         lambda: |-
-          // Print "Smart Home Display" in top center.
+          // Print "PAT Smart Home Display" in top center.
           it.printf(64, 0, id(font1), TextAlign::TOP_CENTER, "Outside Temp");
           if (id(outside_temp).has_state()) {
             it.printf(0, 60, id(font3), TextAlign::BASELINE_LEFT, "%.1f°F", id(outside_temp).state);
@@ -244,8 +254,7 @@ display:
           
       
 interval:
-  - interval: 10s
+  - interval: 5s
     then:
       - display.page.show_next: my_display
       - component.update: my_display
-
