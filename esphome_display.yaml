@@ -98,7 +98,7 @@ image:
     type: GRAYSCALE
     resize: 40x40
 animation:
-  - file: "images/waving1.gif"
+  - file: "images/waving.gif"
     id: hand_waving
     type: GRAYSCALE
 
