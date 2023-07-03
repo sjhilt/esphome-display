@@ -100,7 +100,7 @@ image:
 animation:
   - file: "images/waving.gif"
     id: hand_waving
-    type: TRANSPARENT_BINARY
+    type: BINARY
 
 i2c:
   sda: D2
